@@ -9,11 +9,9 @@ import discordbot.network.Database;
 
 
 
-// https://discord.com/oauth2/authorize?client_id=998806649584238613&scope=bot%20applications.commands&permissions=11140140097&prompt=consent
-
 public class App {
     
-    public final static String TOKEN = "OTk4ODA2NjQ5NTg0MjM4NjEz.GyX94Z.zUG3bdef42g0MUuUjbq6IMeEHabu6fMY1aglSw";
+    public final static String TOKEN = "set to your key";
     // private final static long PERMISSIONS = 11140140097L;
     public static final DiscordApi API = new DiscordApiBuilder()
         .setToken(TOKEN)
