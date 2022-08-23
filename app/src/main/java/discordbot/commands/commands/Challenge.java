@@ -16,7 +16,11 @@ public class Challenge extends ACommand {
 
     private static Challenge self = null;
     
-    // singleton creator
+    /**
+     * Singleton, this means to real overhead is created by calling this
+     * method multiple times.
+     * @return the command
+     */
     public static Challenge get() {
         if (self != null) {
             return self;
@@ -25,6 +29,7 @@ public class Challenge extends ACommand {
                 /**
                  * 
                  *      Creation of the ID
+                 *      arg 0
                  * 
                  **/
                 SlashCommand.with("challenge", "Challenge someone",
@@ -47,9 +52,14 @@ public class Challenge extends ACommand {
                  *      Creation of the function to be run when the listener
                  *      hears that the command is called from Discord.
                  * 
+                 *      arg 1
+                 * 
                  **/
             
-                
+                /*
+                 * This will be the code that gets fired when the command "Challenge"
+                 * is called.
+                 */
                 interaction -> {       
         
                    // extract command contents

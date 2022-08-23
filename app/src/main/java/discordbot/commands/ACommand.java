@@ -23,4 +23,7 @@ public abstract class ACommand {
         return function;
     }
 
+    // java did a bad. I want an abstract & static method :(
+    // public static abstract ACommand get();
+
 }

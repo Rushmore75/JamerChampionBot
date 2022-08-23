@@ -26,9 +26,7 @@ public class App {
 
     public static void main(String[] args) {
         
-        Database.getOrCreate().put(Database.getOrCreate(), "database");
-
-        Database fromTheDead = Database.getOrCreate().get("database", Database.class);
+        var database = Database.getOrCreate();
 
 
         // System.out.println(getApi().createBotInvite(new PermissionsImpl(PERMISSIONS)));
@@ -40,6 +38,8 @@ public class App {
     // TODO make real tests or something... lol
     public String getGreeting() {
         return "Hello World!";
+        
     }
 
+    
 }
