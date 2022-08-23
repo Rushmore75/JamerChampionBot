@@ -1,4 +1,4 @@
-package discordbot.commands.commands;
+package discordbot.commands;
 
 import java.util.function.Consumer;
 import org.javacord.api.interaction.SlashCommandInteraction;

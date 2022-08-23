@@ -9,6 +9,7 @@ import org.javacord.api.interaction.SlashCommandOption;
 import org.javacord.api.interaction.SlashCommandOptionType;
 
 import discordbot.App;
+import discordbot.commands.ACommand;
 import discordbot.commands.messages.ChallengeMsg;
 
 public class Challenge extends ACommand {
