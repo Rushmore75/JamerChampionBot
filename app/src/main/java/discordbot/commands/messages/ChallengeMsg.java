@@ -38,7 +38,7 @@ public class ChallengeMsg {
 
             .setColor(Color.CYAN)
             .setAuthor(Msgs.TITLE_CHAMPION.get())
-            // TODO use some sort of data base and collect the name there
+            // TODO use some sort of database and collect the name there
             .setTitle("name")
             
             // line one
@@ -87,14 +87,21 @@ public class ChallengeMsg {
             ;
     }
 
-    public static EmbedBuilder generateWinLoss(User defendUser, User challUser) {
+    public static EmbedBuilder generateWinLoss(User defendUser, User challengerUser) {
         // TODO (person 1 win:loss) / (person two win:loss)
 
-        
+        var defender = Database.getOrCreate().getUser(defendUser.getIdAsString());
+        var challenger = Database.getOrCreate().getUser(challengerUser.getIdAsString());
+
+        Float defWinLoss = (float) (defender.totalWins / defender.totalLosses);
+        Float chaWinLoss = (float) (challenger.totalWins / challenger.totalLosses);
+        Float winRatio = defWinLoss / chaWinLoss;
 
         return new EmbedBuilder()
         .setColor(Color.LIGHT_GRAY)
-        .addInlineField("name", "value");
+        .addInlineField("Defender W:L ", defWinLoss.toString())
+        .addInlineField("Challenger W:L ", chaWinLoss.toString())
+        .addInlineField("Chance of Success for Defender: ", winRatio.toString());
     }
 
 }

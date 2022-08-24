@@ -7,6 +7,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
+
+import org.javacord.api.entity.user.User;
+
 import discordbot.App;
 import discordbot.Config;
 import discordbot.Locations;
@@ -80,6 +83,15 @@ public class Database {
         } catch (IOException | InterruptedException e) { e.printStackTrace(); }
 
         return null;
+    }
+
+    /**
+     * 
+     * @param id Name of the user you wish to get info on
+     * @return User
+     */
+    public Person getUser(String id) {
+        return get(id, Person.class);
     }
 
 

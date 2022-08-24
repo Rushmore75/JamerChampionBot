@@ -17,7 +17,7 @@ public class Challenge extends ACommand {
     private static Challenge self = null;
     
     /**
-     * Singleton, this means to real overhead is created by calling this
+     * Singleton, this means no real overhead is created by calling this
      * method multiple times.
      * @return the command
      */
@@ -84,4 +84,7 @@ public class Challenge extends ACommand {
     private Challenge(String id, Consumer<SlashCommandInteraction> fun) {
         super(id, fun);
     }
+
+    
+
 }

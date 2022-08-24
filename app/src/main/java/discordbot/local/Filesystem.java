@@ -2,7 +2,6 @@ package discordbot.local;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -11,9 +10,6 @@ import discordbot.App;
 
 public class Filesystem {
     
-
-    // TODO change to a builder pattern for fun?
-
     /**
      * 
      * @param location The directory in which the file is located
