@@ -4,11 +4,28 @@
 package discordbot;
 
 import org.junit.jupiter.api.Test;
+
+import discordbot.network.JamerUser;
+import discordbot.network.NeoDatabase;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+
+    @Test void dbGetPut() {
+        JamerUser dummy = new JamerUser("631555337991749661", 1, 15, 1, 0);
+        NeoDatabase.put(dummy);
+        JamerUser returned = NeoDatabase.getUser(dummy.id);
+
+        
+        assertEquals(dummy.id,              returned.id);
+        assertEquals(dummy.streakWins,      returned.streakWins);
+        assertEquals(dummy.streakLosses,    returned.streakLosses);
+        assertEquals(dummy.totalLosses,     returned.totalLosses);
+        assertEquals(dummy.totalWins,       returned.totalWins);
+        
     }
+
+
+
+
 }

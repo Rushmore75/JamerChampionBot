@@ -22,21 +22,24 @@ public class Filesystem {
     }
 
     /**
-     * 
-     * @param location The directory in which the file is located
+     * Reads file into String. Creates an empty file if it doesn't exist.
+     * @param fullLocation The full path to the file including the file it's self.
      * @param fileName The file name it's self (including file extension (if applicable))
      * @return Contents of the file
      * 
      */
     public static String readFile(String fullLocation) {
-        byte[] raw = null;
-        
+        byte[] raw = null;    
         try {
-            
-            raw = Files.readAllBytes( Paths.get(fullLocation) );
-
+            var path = Paths.get(fullLocation);
+            if (Files.exists(path)) {
+                raw = Files.readAllBytes(path);
+            } else {
+                byte[] blank = {};
+                Files.write(path, blank); // default options work well here :)
+                raw = blank;
+            }            
         } catch (IOException e) { e.printStackTrace(); }
-        
         return new String(raw);
     }
 

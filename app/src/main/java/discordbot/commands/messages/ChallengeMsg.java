@@ -3,13 +3,11 @@ package discordbot.commands.messages;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
-
 import discordbot.network.Database;
-
+import discordbot.network.JamerUser;
 import java.awt.Color;
 
 public class ChallengeMsg {
-    // what is a record in java?
     
     private enum Msgs {
         
@@ -23,49 +21,49 @@ public class ChallengeMsg {
 
         private final String s;
 
-        private Msgs(String s) {
-            this.s = s;
-        }
+        private Msgs(String s) { this.s = s; }
 
-        public String get() {
-            return s;
-        }
+        public String get() { return s; }
 
     }
 
-    public static EmbedBuilder generateDefender() {
+    public static EmbedBuilder generateDefender(String name) {
+
+        JamerUser user = Database.getOrCreate().get(name, JamerUser.class);
+
         return new EmbedBuilder()
 
             .setColor(Color.CYAN)
             .setAuthor(Msgs.TITLE_CHAMPION.get())
-            // TODO use some sort of database and collect the name there
-            .setTitle("name")
+            .setTitle(user.id)
             
             // line one
-            .addInlineField(Msgs.WINS.get(), "value")
             .addInlineField(Msgs.NONE.get(), Msgs.NONE.get())
-            .addInlineField(Msgs.WINS_STREAK.get(), "value")
+            .addInlineField(Msgs.WINS.get(), user.totalWins.toString())
+            .addInlineField(Msgs.NONE.get(), Msgs.NONE.get())
+            
 
             // line two
-            .addInlineField(Msgs.NONE.get(), Msgs.NONE.get())
-            .addInlineField(Msgs.LOSSES.get(), "value")
-            .addInlineField(Msgs.NONE.get(), Msgs.NONE.get())
+            .addInlineField(Msgs.LOSSES.get(),      user.totalLosses.toString())
+            .addInlineField(Msgs.NONE.get(),        Msgs.NONE.get())
+            .addInlineField(Msgs.WINS_STREAK.get(), user.streakWins.toString())
             ;
     }
 
     public static EmbedBuilder generateChallenger(User user, Server server) {
 
         final String NAME = user.getName();
-        final String ID = user.getIdAsString();
-        String nickname = "";
+        final String ID   = user.getIdAsString();
+        String nickname   = "";
         // TODO nickname is always false...
+        // Don't worry about this for now, just use the set name
         Boolean hasNickname = user.getNickname(server).isPresent();
 
         if (hasNickname) {
             nickname = user.getNickname(server).get();
         }
 
-        // Database.getOrCreate().get(ID, type)
+        JamerUser userData = Database.getOrCreate().get(ID, JamerUser.class);
 
         return new EmbedBuilder()
             .setColor(Color.RED)
@@ -77,25 +75,25 @@ public class ChallengeMsg {
 
             // line one
             .addInlineField(Msgs.NONE.get(), Msgs.NONE.get())
-            .addInlineField(Msgs.WINS.get(), "value")
+            .addInlineField(Msgs.WINS.get(), userData.totalWins.toString())
             .addInlineField(Msgs.NONE.get(), Msgs.NONE.get())
 
             // line two
-            .addInlineField(Msgs.LOSSES.get(), "value")
-            .addInlineField(Msgs.NONE.get(), Msgs.NONE.get())
-            .addInlineField(Msgs.LOSSES_STREAK.get(), "value")
+            .addInlineField(Msgs.LOSSES.get(),          userData.totalLosses.toString())
+            .addInlineField(Msgs.NONE.get(),            Msgs.NONE.get())
+            .addInlineField(Msgs.LOSSES_STREAK.get(),   userData.streakLosses.toString())
             ;
     }
 
     public static EmbedBuilder generateWinLoss(User defendUser, User challengerUser) {
         // TODO (person 1 win:loss) / (person two win:loss)
 
-        var defender = Database.getOrCreate().getUser(defendUser.getIdAsString());
-        var challenger = Database.getOrCreate().getUser(challengerUser.getIdAsString());
+        var defender    = Database.getOrCreate().getUser(defendUser.getIdAsString());
+        var challenger  = Database.getOrCreate().getUser(challengerUser.getIdAsString());
 
-        Float defWinLoss = (float) (defender.totalWins / defender.totalLosses);
-        Float chaWinLoss = (float) (challenger.totalWins / challenger.totalLosses);
-        Float winRatio = defWinLoss / chaWinLoss;
+        Float defWinLoss    = (float) (defender.totalWins   / defender.totalLosses);
+        Float chaWinLoss    = (float) (challenger.totalWins / challenger.totalLosses);
+        Float winRatio      = defWinLoss / chaWinLoss;
 
         return new EmbedBuilder()
         .setColor(Color.LIGHT_GRAY)

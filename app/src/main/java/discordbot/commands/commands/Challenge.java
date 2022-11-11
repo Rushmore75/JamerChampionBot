@@ -15,7 +15,6 @@ import discordbot.commands.messages.ChallengeMsg;
 public class Challenge extends ACommand {
 
     private static Challenge self = null;
-    
     /**
      * Singleton, this means no real overhead is created by calling this
      * method multiple times.
@@ -27,10 +26,8 @@ public class Challenge extends ACommand {
         } else {
             return new Challenge(
                 /**
-                 * 
                  *      Creation of the ID
                  *      arg 0
-                 * 
                  **/
                 SlashCommand.with("challenge", "Challenge someone",
                     Arrays.asList(
@@ -48,28 +45,24 @@ public class Challenge extends ACommand {
                 .getIdAsString(),
 
                 /**
-                 * 
                  *      Creation of the function to be run when the listener
                  *      hears that the command is called from Discord.
                  * 
                  *      arg 1
-                 * 
                  **/
-            
                 /*
                  * This will be the code that gets fired when the command "Challenge"
                  * is called.
                  */
                 interaction -> {       
-        
                    // extract command contents
-                   interaction.getOptionByIndex(0).ifPresent(option -> {
-                       
+                   interaction.getOptionByIndex(0).ifPresent(option -> {                  
                        interaction.getChannel().ifPresent(channel -> {
+                        // FIXME the program is taking a crap right here
                            new MessageBuilder()
                                .setEmbeds(
                                    ChallengeMsg.generateChallenger(interaction.getUser(), interaction.getServer().get()),
-                                   ChallengeMsg.generateDefender()
+                                   ChallengeMsg.generateDefender(interaction.getUser().getName())
                                )
                                .send(channel); 
                        });
@@ -80,11 +73,7 @@ public class Challenge extends ACommand {
                });
         }
     }
-
     private Challenge(String id, Consumer<SlashCommandInteraction> fun) {
         super(id, fun);
     }
-
-    
-
 }

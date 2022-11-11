@@ -23,8 +23,9 @@ public class Locations {
     }
 
     public static enum Network {
-
-        DEFAULT_DB_URL ("http://127.0.0.1:8080/");
+        // create table users (UserID varchar(18), WINS int, LOSSES int, WINS_STREAK int, LOSSES_STREAK int);
+        USER_TABLE ("users"),
+        DEFAULT_DB_URL ("jdbc:mysql://127.0.0.1:3306/java_cloud_db");
         
         private final String string;
         private Network(String s) { 

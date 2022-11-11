@@ -23,7 +23,6 @@ public class Listeners {
         // adding a listener to the discord bot
         App.API.addSlashCommandCreateListener(event -> {
                                         // event fired at the listener
- 
             // normal implementation:
             //https://javacord.org/wiki/basic-tutorials/interactions/responding.html#slashcommand-interaction-only-response-methods
 
@@ -36,7 +35,6 @@ public class Listeners {
                 // I am using a raw get() function on an option. This
                 // could end poorly but it shouldn't.
                 .accept(event.getInteraction().asSlashCommandInteraction().get());
-
         });
     }
 }

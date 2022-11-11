@@ -27,24 +27,16 @@ public class App {
     public static final DiscordApi API = new DiscordApiBuilder()
         .setToken(CONFIG.DISCORD_TOKEN)
         .login()
-        .join();   
+        .join();
 
     public static void main(String[] args) {
         
         var database = Database.getOrCreate();
 
-
-        // System.out.println(getApi().createBotInvite(new PermissionsImpl(CONFIG.PERMISSIONS)));
-
         Listeners.create();
 
-    }
-
-    // TODO make real tests or something... lol
-    public String getGreeting() {
-        return "Hello World!";
-        
-    }
-
-    
+        while (true) {
+            // keep thread alive
+        }
+    }    
 }

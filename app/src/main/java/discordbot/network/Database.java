@@ -8,18 +8,15 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 
-import org.javacord.api.entity.user.User;
 
 import discordbot.App;
 import discordbot.Config;
-import discordbot.Locations;
-import discordbot.local.Filesystem;
 
 public class Database {
 
-    // private final URL DB_URL;
     private static Database database = null;
-    private final String uri;
+    private final String uri; // NULL
+    private final String url_template = getUri() + "/users/%s"; // FIXME this doesn't cache the getUri() call, it executes it right away
 
 
     private Database(Config config) {
@@ -27,21 +24,15 @@ public class Database {
     }
 
     public static Database getOrCreate() {
-
         if (database == null) {
-            
-            // hopefully the file exists... // FIXME
-            String fileConfig = Filesystem.readFile(Locations.Local.CONFIG_FILE.get());
-            Config config = App.GSON.fromJson(fileConfig, Config.class);
-            
-            Database db = new Database(config);
+            Database db = new Database(App.CONFIG);
             database = db;
         } 
         return database;
     }
 
     private String getUri() { return uri; }
-            
+                
     /*
      * 
      *  Get & Put
@@ -49,37 +40,31 @@ public class Database {
      */
 
     public void put(Object obj, String name) {
-
         String json = App.GSON.toJson(obj);
-            // TODO wash name
-        
-            HttpRequest request = HttpRequest.newBuilder()
-                  .uri(URI.create(String.format("%s/%s", this.getUri(), name)))
-                  .PUT(BodyPublishers.ofString(json))
-                  .build();
-
-            HttpClient client = HttpClient.newHttpClient();
-            try {
-                client.send(request, BodyHandlers.ofString());
-
-                
-            } catch (IOException | InterruptedException e) { e.printStackTrace(); }
+        // create the http request, then make a client from it.
+        HttpRequest request = HttpRequest.newBuilder()
+              .uri(URI.create(String.format(url_template, name))) // TODO wash name
+              .PUT(BodyPublishers.ofString(json))
+              .build();
+        HttpClient client = HttpClient.newHttpClient();
+        // then ask the request
+        try {
+            client.send(request, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) { e.printStackTrace(); }
     }
 
+
     public <T> T get(String name, Class<T> type) {
-        
+        // create request and tie it to a client
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(String.format("%s/%s", this.getUri(), name)))
+            .uri(URI.create(String.format(url_template, name))) // TODO wash name, or guarantee it only comes from internal
             .GET()
             .build();
-
         HttpClient client = HttpClient.newHttpClient();
-        
+        // ask the request
         try {
-            
             HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
             return App.GSON.fromJson(response.body(), type);
-
         } catch (IOException | InterruptedException e) { e.printStackTrace(); }
 
         return null;
@@ -90,10 +75,7 @@ public class Database {
      * @param id Name of the user you wish to get info on
      * @return User
      */
-    public Person getUser(String id) {
-        return get(id, Person.class);
+    public JamerUser getUser(String id) {
+        return get(id, JamerUser.class);
     }
-
-
-    // TODO get specific traits from the database without gathering the whole object
 }

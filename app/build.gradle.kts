@@ -22,12 +22,15 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
-
-    // This dependency is used by the application.
     implementation("com.google.guava:guava:30.1.1-jre")
+
+
 
     // gson
     implementation("com.google.code.gson:gson:2.9.0")
+
+    // mysql
+    implementation("com.mysql:mysql-connector-j:8.0.31")
 
     // javacord
     implementation("org.javacord:javacord:3.5.0")
