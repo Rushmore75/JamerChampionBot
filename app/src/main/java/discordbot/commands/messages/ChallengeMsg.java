@@ -28,9 +28,13 @@ public class ChallengeMsg {
         public String get() { return s; }
 
     }
-
+    /**
+     * Generate the defender's message based off the given user input.
+     * @param user The user to generate text for
+     * @return EmbedBuilder, to be used to create Discord embeds
+     */
     public static EmbedBuilder generateDefender(String name) {
-
+        // TODO add server
         JamerUser user = Database.getOrCreate().get(name, JamerUser.class);
 
         return new EmbedBuilder()
@@ -52,6 +56,12 @@ public class ChallengeMsg {
             ;
     }
 
+    /**
+     * Generate the challenger's message based off the givin user input.
+     * @param user The user to generate text for
+     * @param server the server id
+     * @return EmbedBuilder, to be used to create Discord embeds
+     */
     public static EmbedBuilder generateChallenger(User user, Server server) {
 
         final String NAME = user.getName();
@@ -87,6 +97,12 @@ public class ChallengeMsg {
             ;
     }
 
+    /**
+     * Generate the probability that either user will win.
+     * @param defendUser 
+     * @param challengerUser
+     * @return EmbedBuilder, so you can use it inline with other EmbedBuilders.
+     */
     public static EmbedBuilder generateWinLoss(User defendUser, User challengerUser) {
         // TODO (person 1 win:loss) / (person two win:loss)
 
