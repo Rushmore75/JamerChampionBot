@@ -1,5 +1,8 @@
 package discordbot.network;
 
+/**
+ * Holds a user's data
+ */
 public class JamerUser {
     public final String id;
     public final Integer totalWins;

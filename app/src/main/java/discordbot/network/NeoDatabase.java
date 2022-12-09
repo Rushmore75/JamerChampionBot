@@ -9,6 +9,10 @@ import discordbot.Locations;
 public class NeoDatabase {
     // TODO consolidate methods
 
+    /**
+     * Store a user's data (overwriting old data)
+     * @param user The user who you which to store
+     */
     public static void put(JamerUser user) {
         try {
             Connection connection = sqlConnect();
@@ -30,9 +34,15 @@ public class NeoDatabase {
         }
     }
 
-    public static JamerUser getUser(String id) {
+    /**
+     * Get a user's data based on their ID string
+     * @param id The user's ID
+    **/
+     public static JamerUser getUser(String id) {
         JamerUser ju = null;
         
+        // TODO what happens if a user that doesn't exsist (yet) gets called for?
+
         try {
             Connection connection = sqlConnect();
             var rs = connection.prepareStatement(

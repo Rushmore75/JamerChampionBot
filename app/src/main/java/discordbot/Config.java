@@ -1,7 +1,9 @@
 package discordbot;
 
 
-
+/**
+ * The application's configuration
+ */
 public class Config {
     public final String DB_LOCATION;
     public final String DISCORD_TOKEN;

@@ -5,6 +5,10 @@ import java.util.function.Consumer;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import discordbot.commands.commands.Challenge;
 
+/**
+ * Holds a map of all the commands and their data. It registers them
+ * with the discord api so they are useable in app.
+ */
 public class Listeners {
 
     public static HashMap<String, Consumer<SlashCommandInteraction>> initCommands() {
@@ -16,6 +20,10 @@ public class Listeners {
         return commands;
     }
 
+
+    /**
+     * Registers/creates all commands
+     */
     public static void create() {
         // Hashmap of all the commands
         HashMap<String, Consumer<SlashCommandInteraction>> commands = initCommands();

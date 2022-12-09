@@ -5,6 +5,8 @@ import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import discordbot.network.Database;
 import discordbot.network.JamerUser;
+import discordbot.network.NeoDatabase;
+
 import java.awt.Color;
 
 public class ChallengeMsg {
@@ -88,8 +90,8 @@ public class ChallengeMsg {
     public static EmbedBuilder generateWinLoss(User defendUser, User challengerUser) {
         // TODO (person 1 win:loss) / (person two win:loss)
 
-        var defender    = Database.getOrCreate().getUser(defendUser.getIdAsString());
-        var challenger  = Database.getOrCreate().getUser(challengerUser.getIdAsString());
+        var defender = NeoDatabase.getUser(defendUser.getIdAsString());
+        var challenger = NeoDatabase.getUser(challengerUser.getIdAsString());
 
         Float defWinLoss    = (float) (defender.totalWins   / defender.totalLosses);
         Float chaWinLoss    = (float) (challenger.totalWins / challenger.totalLosses);

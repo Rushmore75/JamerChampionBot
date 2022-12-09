@@ -12,6 +12,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import discordbot.App;
 import discordbot.Config;
 
+@Deprecated
 public class Database {
 
     private static Database database = null;

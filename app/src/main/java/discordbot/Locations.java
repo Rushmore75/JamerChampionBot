@@ -2,17 +2,19 @@ package discordbot;
 
 import java.nio.file.Paths;
 
-
+/**
+ * Holds all of the app's location data, so that it is centralized
+ */
 public class Locations {
 
     public static enum Local {
         PARENT_DIR  (Paths.get("").toAbsolutePath().getParent().toString()),
         
         USERS      ("/users"),
-        USERS_FILE (PARENT_DIR.get() + USERS.get()),
+        USERS_PATH (PARENT_DIR.get() + USERS.get()),
         
         CONFIG      ("/config.json"),
-        CONFIG_FILE (PARENT_DIR.get() + CONFIG.get());
+        CONFIG_PATH (PARENT_DIR.get() + CONFIG.get());
         
         private final String string;
         private Local(String s) { 
