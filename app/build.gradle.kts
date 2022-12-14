@@ -36,7 +36,8 @@ dependencies {
     implementation("org.javacord:javacord:3.5.0")
 
     // log4j
-    runtimeOnly ("org.apache.logging.log4j:log4j-core:2.17.0")
+    implementation ("org.apache.logging.log4j:log4j-api:2.19.0")
+    implementation ("org.apache.logging.log4j:log4j-core:2.19.0")
     
 }
 
