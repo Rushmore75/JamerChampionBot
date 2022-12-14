@@ -15,6 +15,8 @@ public class Listeners {
 
         HashMap<String, Consumer<SlashCommandInteraction>> commands = new HashMap<>();
         // TODO change this to just go through the commands folder and grab all the commands.
+
+        App.LOGGER.info("Adding " + Challenge.class.getName() + " command.");
         commands.put(Challenge.get().getCommandId(), Challenge.get().getFunction());
 
         return commands;
@@ -25,12 +27,21 @@ public class Listeners {
      * Registers/creates all commands
      */
     public static void create() {
+        
+
         // Hashmap of all the commands
         HashMap<String, Consumer<SlashCommandInteraction>> commands = initCommands();
         
+        App.LOGGER.info("Adding command listener.");
         // adding a listener to the discord bot
         App.API.addSlashCommandCreateListener(event -> {
                                         // event fired at the listener
+            App.LOGGER.info(
+                "Received command event from "
+                + event.getSlashCommandInteraction().getCommandIdAsString()
+                + " command"
+                );
+
             // normal implementation:
             //https://javacord.org/wiki/basic-tutorials/interactions/responding.html#slashcommand-interaction-only-response-methods
 

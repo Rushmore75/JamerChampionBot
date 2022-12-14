@@ -3,7 +3,8 @@ package discordbot.commands.messages;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
-import discordbot.network.Database;
+
+import discordbot.App;
 import discordbot.network.JamerUser;
 import discordbot.network.NeoDatabase;
 
@@ -30,29 +31,31 @@ public class ChallengeMsg {
     }
     /**
      * Generate the defender's message based off the given user input.
-     * @param user The user to generate text for
+     * @param id The id of the user to generate text for
      * @return EmbedBuilder, to be used to create Discord embeds
      */
-    public static EmbedBuilder generateDefender(String name) {
+    public static EmbedBuilder generateDefender(User user, Server server) {
+        App.LOGGER.info("Generating defender's message.");
+
         // TODO add server
-        JamerUser user = Database.getOrCreate().get(name, JamerUser.class);
+        JamerUser localUser = NeoDatabase.getUser(user.getIdAsString());
 
         return new EmbedBuilder()
 
             .setColor(Color.CYAN)
             .setAuthor(Msgs.TITLE_CHAMPION.get())
-            .setTitle(user.id)
+            .setTitle(user.getName())
             
             // line one
             .addInlineField(Msgs.NONE.get(), Msgs.NONE.get())
-            .addInlineField(Msgs.WINS.get(), user.totalWins.toString())
+            .addInlineField(Msgs.WINS.get(), localUser.totalWins.toString())
             .addInlineField(Msgs.NONE.get(), Msgs.NONE.get())
             
 
             // line two
-            .addInlineField(Msgs.LOSSES.get(),      user.totalLosses.toString())
+            .addInlineField(Msgs.LOSSES.get(),      localUser.totalLosses.toString())
             .addInlineField(Msgs.NONE.get(),        Msgs.NONE.get())
-            .addInlineField(Msgs.WINS_STREAK.get(), user.streakWins.toString())
+            .addInlineField(Msgs.WINS_STREAK.get(), localUser.streakWins.toString())
             ;
     }
 
@@ -63,6 +66,7 @@ public class ChallengeMsg {
      * @return EmbedBuilder, to be used to create Discord embeds
      */
     public static EmbedBuilder generateChallenger(User user, Server server) {
+        App.LOGGER.info("Generating challenger's message.");
 
         final String NAME = user.getName();
         final String ID   = user.getIdAsString();
@@ -75,7 +79,8 @@ public class ChallengeMsg {
             nickname = user.getNickname(server).get();
         }
 
-        JamerUser userData = Database.getOrCreate().get(ID, JamerUser.class);
+        // JamerUser userData = Database.getOrCreate().get(ID, JamerUser.class);
+        JamerUser userData = NeoDatabase.getUser(ID);
 
         return new EmbedBuilder()
             .setColor(Color.RED)
@@ -104,6 +109,8 @@ public class ChallengeMsg {
      * @return EmbedBuilder, so you can use it inline with other EmbedBuilders.
      */
     public static EmbedBuilder generateWinLoss(User defendUser, User challengerUser) {
+        App.LOGGER.info("Generating win : loss chance");
+        
         // TODO (person 1 win:loss) / (person two win:loss)
 
         var defender = NeoDatabase.getUser(defendUser.getIdAsString());

@@ -29,6 +29,7 @@ public class Filesystem {
      * 
      */
     public static String readFile(String fullLocation) {
+        App.LOGGER.info("Reading file " + fullLocation);
         byte[] raw = null;    
         try {
             var path = Paths.get(fullLocation);
@@ -39,9 +40,24 @@ public class Filesystem {
                 Files.write(path, blank); // default options work well here :)
                 raw = blank;
             }            
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+            App.LOGGER.warn("Failed to read from file.");
+        }
         return new String(raw);
     }
+
+    /**
+     * 
+     * @param contents What to write into the file
+     * @param location The directory where the file will be held
+     * @param fileName The name of the file in the location
+     * @return True if the write was a success, False if it failed
+     */
+    public static boolean writeFile(Object contents, String location, String fileName) {
+        return writeFile(App.GSON.toJson(contents), location, fileName);
+    }
+
 
     /**
      *  File doesn't need to currently exist. This will
@@ -55,6 +71,8 @@ public class Filesystem {
 
         Path fileLocation = Paths.get(location, fileName);
         Path fileLocPath = Paths.get(location);
+
+        App.LOGGER.info("Writing to file " + fileLocation.toString());
         
         try {
             
@@ -65,20 +83,13 @@ public class Filesystem {
             Files.write(fileLocation, contents.getBytes(), StandardOpenOption.WRITE);
             return true;
 
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+            App.LOGGER.warn("Failed to write to file.");
+        }
         
         return false;
 
     }
 
-    /**
-     * 
-     * @param contents What to write into the file
-     * @param location The directory where the file will be held
-     * @param fileName The name of the file in the location
-     * @return True if the write was a success, False if it failed
-     */
-    public static boolean writeFile(Object contents, String location, String fileName) {
-        return writeFile(App.GSON.toJson(contents), location, fileName);
-    }
 }

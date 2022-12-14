@@ -56,16 +56,21 @@ public class Challenge extends ACommand {
                  */
                 interaction -> {       
                    // extract command contents
-                   interaction.getOptionByIndex(0).ifPresent(option -> {                  
-                       interaction.getChannel().ifPresent(channel -> {
-                        // FIXME the program is taking a crap right here
-                           new MessageBuilder()
-                               .setEmbeds(
-                                   ChallengeMsg.generateChallenger(interaction.getUser(), interaction.getServer().get()),
-                                   ChallengeMsg.generateDefender(interaction.getUser().getName())
-                               )
-                               .send(channel); 
-                       });
+                   interaction.getOptionByIndex(0).ifPresent(option -> {   
+                        // get the targeted users (not the sender)
+                        option.getUserValue().ifPresent(targetUser -> {
+                            // get the channel the command was issued in, so it can be send back there.
+                            interaction.getChannel().ifPresent(channel -> {
+                                new MessageBuilder()
+                                    .setEmbeds(
+                                     // TODO switch one of the users lol
+                                        ChallengeMsg.generateChallenger(interaction.getUser(), interaction.getServer().get()),
+                                        ChallengeMsg.generateDefender(targetUser, interaction.getServer().get())
+                                    )
+                                    .send(channel); 
+                            });
+                        });
+
                        interaction.createImmediateResponder()
                            .append("\u200B")
                            .respond();

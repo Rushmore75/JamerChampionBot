@@ -26,8 +26,10 @@ public class Locations {
 
     public static enum Network {
         // create table users (UserID varchar(18), WINS int, LOSSES int, WINS_STREAK int, LOSSES_STREAK int);
+        // TODO table should be the id of the server, so it works multiserver.
         USER_TABLE ("users"),
-        DEFAULT_DB_URL ("jdbc:mysql://127.0.0.1:3306/java_cloud_db");
+        
+        DEFAULT_DB_URL (App.CONFIG.DB_LOCATION);
         
         private final String string;
         private Network(String s) { 
