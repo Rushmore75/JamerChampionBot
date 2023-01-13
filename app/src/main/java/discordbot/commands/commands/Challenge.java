@@ -63,7 +63,6 @@ public class Challenge extends ACommand {
                             interaction.getChannel().ifPresent(channel -> {
                                 new MessageBuilder()
                                     .setEmbeds(
-                                     // TODO switch one of the users lol
                                         ChallengeMsg.generateChallenger(interaction.getUser(), interaction.getServer().get()),
                                         ChallengeMsg.generateDefender(targetUser, interaction.getServer().get())
                                     )

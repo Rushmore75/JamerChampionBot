@@ -1,13 +1,6 @@
-The program is expecting a database named `java_cloud_db` and a table with this:
+# Hello!
+This Discord bot it useful for tournament-style events on discord, it works by linking your Discord account to your Steam account (no private information is stored). 
 
 
-```sql
-create table users (
-    UserID char(25),
-    WINS int,
-    LOSSES int,
-    WINS_STREAK int,
-    LOSSES_STREAK int
-);
-```
-
+### Notes:
+The program is expecting a database named `java_cloud_db`.
